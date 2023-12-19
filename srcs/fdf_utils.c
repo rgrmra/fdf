@@ -6,13 +6,13 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:35:52 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/06 19:53:33 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/17 22:06:26 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z)
+t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, unsigned long color)
 {
 	t_field	*new;
 
@@ -20,8 +20,12 @@ t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z)
 	if (!new)
 		return (0);
 	new -> x = x;
+	new -> dot_x = x;
 	new -> y = y;
+	new -> dot_y = y;
 	new -> z = z;
+	new -> dot_z = z;
+	new -> color = color;
 	new -> next = 0;
 	return (new);
 }
