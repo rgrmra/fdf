@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/19 19:20:26 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/20 20:42:14 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,23 @@ typedef struct s_field {
 	int32_t			color;
 	struct s_field	*next;
 }	t_field;
+
+typedef struct s_draw {
+	int32_t	x0;
+	int32_t	y0;
+	int32_t	xcolor;
+	int32_t	x1;
+	int32_t	y1;
+	int32_t	ycolor;
+	int		line;
+	int		pixel;
+	int32_t	dx;
+	int32_t	sx;
+	int32_t	dy;
+	int32_t	sy;
+	int32_t err;
+	int32_t	e2;
+}	t_draw;
 
 void	ft_error(void);
 void	parser_map(t_map **map, const char *path);

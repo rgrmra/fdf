@@ -6,79 +6,103 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:33:23 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/19 19:33:06 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/20 21:03:03 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	drawline(mlx_image_t *img, mlx_t *mlx, int x0, int y0, int x1, int y1, int32_t color)
+static int	gradient(t_draw *draw)
 {
-	int32_t	dx;
-	int32_t	sx;
-	int32_t	dy;
-	int32_t	sy;
-	int32_t	err;
-	int32_t	e2;
-	int32_t c;
+	double	color[3];
+	int		new[3];
+	int		newcolor;
+	int		pix;
 
-	c = color;
-	c = ((c * 16) * 16) + 0x77;
-	dx = abs (x1 - x0);
-	sx = x0 < x1 ? 1 : -1;
-	dy = -abs (y1 - y0);
-	sy = y0 < y1 ? 1 : -1; 
-	err = dx + dy;
-	while (1)
+	pix = draw -> line - draw -> pixel;
+	*(color) = (double)((draw -> ycolor >> 16) - (draw -> xcolor >> 16)) \
+			/ (double)draw -> line;
+	*(color + 1) = (double)(((draw -> ycolor >> 8) & 0xFF) - \
+			((draw -> xcolor >> 8) & 0xFF)) / (double)draw -> line;
+	*(color + 2) = (double)((draw -> ycolor & 0xFF) - \
+			(draw -> xcolor & 0xFF)) / (double)draw -> line;
+	*new = (draw -> xcolor >> 16) + round(pix * *color);
+	*(new + 1) = ((draw -> xcolor >> 8) & 0xFF) + round(pix * *(color + 1));
+	*(new + 2) = (draw -> xcolor & 0xFF) + round(pix * *(color + 2));
+	newcolor = (*new << 16) + (*(new + 1) << 8) + *(new + 2);
+	return (newcolor);
+}
+
+static void	calculate(t_map *map, t_draw *draw)
+{
+	draw -> pixel = sqrt(pow(draw -> dx, 2) + pow(draw -> dy, 2));
+	draw -> line = draw -> pixel;
+	while (draw -> pixel)
 	{
-		if (x0 >= 0 && x0 < mlx -> width && y0 >= 0 && y0 < mlx -> height)
-			mlx_put_pixel(img, x0, y0, c);
-		if (x0 == x1 && y0 == y1)
-			break;
-		e2 = 2 * err;
-		if (e2 >= dy) { err += dy; x0 += sx; }
-
-		if (e2 <= dx) { err += dx; y0 += sy; }
+		if ((draw -> x0 >= 0 && draw -> x0 < map -> mlx -> width)
+			&& (draw -> y0 >= 0 && draw -> y0 < map -> mlx -> height))
+			mlx_put_pixel(map -> img, draw -> x0, draw -> y0, gradient(draw));
+		if (draw -> x0 == draw -> x1 && draw -> y0 == draw -> y1)
+			return ;
+		draw -> e2 = 2 * draw -> err;
+		if (draw -> e2 >= draw -> dy)
+		{
+			draw -> err += draw -> dy;
+			draw -> x0 += draw -> sx;
+		}
+		if (draw -> e2 <= draw -> dx)
+		{
+			draw -> err += draw -> dx;
+			draw -> y0 += draw -> sy;
+		}
+		draw -> pixel -= 1;
 	}
 }
 
-static void	clear(mlx_image_t *img)
+static void	drawline(t_map *map, t_field *from, t_field *to)
 {
+	t_draw	draw;
+
+	draw.x0 = (int) from -> dot_x;
+	draw.x1 = (int) to -> dot_x;
+	draw.xcolor = ((from -> color * 16) * 16) + 0x77;
+	draw.y0 = (int) from -> dot_y;
+	draw.y1 = (int) to -> dot_y;
+	draw.ycolor = ((to -> color * 16) * 16) + 0x77;
+	draw.dx = abs(draw.x1 - draw.x0);
+	if (draw.x0 < draw.x1)
+		draw.sx = 1;
+	else
+		draw.sx = -1;
+	draw.dy = -abs(draw.y1 - draw.y0);
+	if (draw.y0 < draw.y1)
+		draw.sy = 1;
+	else
+		draw.sy = -1;
+	draw.err = draw.dx + draw.dy;
+	calculate(map, &draw);
+}
+
+static void	prepare_matrix(t_map *map)
+{
+	t_field		*tmp;
 	uint32_t	i;
 
 	i = 0;
-	while (i < (img -> width * img -> height * sizeof(uint32_t)))
-		*(img -> pixels + (i++ * sizeof(uint8_t))) = 0x00;
-}
-
-static void	draw(t_map *map)
-{
-	t_field	*tmp;
-
-	clear(map -> img);
+	while (i < (map -> img -> width * map -> img -> height * sizeof(uint32_t)))
+	{
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0x33;
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0x33;
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0x33;
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0xff;
+	}
 	tmp = map-> field;
 	while (tmp)
 	{
 		tmp -> dot_x = tmp -> x * map -> cam -> z;
 		tmp -> dot_y = tmp -> y * map -> cam -> z;
 		tmp -> dot_z = tmp -> z * map -> cam -> z;
-/*
-		double	r = sqrt(pow(map -> mlx -> height, 2) * pow(map -> mlx -> width, 2));
-		double	theta = 0;
-		double	phi = 0;
-
-
-		double	snt = sin(theta * 3.14159 / 180);
-		double	cnt	= cos(theta * 3.14159 / 180);
-		double	snp = sin(phi * 3.14159 / 180);
-		double	cnp = cos(phi * 3.14159 / 180);
-		tmp -> dot_x = r * snt * cnp;
-		tmp -> dot_y = r * cnt;
-		tmp -> dot_z = -r * snt * snp;
-*/
 		rotate(&tmp, &(map -> cam));
-		
-
 		tmp -> dot_x += map -> cam -> x;
 		tmp -> dot_y += map -> cam -> y;
 		tmp = tmp-> next;
@@ -87,21 +111,21 @@ static void	draw(t_map *map)
 
 void	print_matrix(t_map **map)
 {
-	t_field *tmp;
-	t_field *next_x;
-	t_field *next_y;
+	t_field	*tmp;
+	t_field	*next_x;
+	t_field	*next_y;
 
-	tmp = (*map) -> field;
-	next_x = (*map) -> next_x;
-	next_y = (*map) -> next_y;
-	draw(*map);
-	if ((*map) -> cam -> z < 0)
-		(*map) -> cam -> z = 0;
+	tmp = (*map)-> field;
+	next_x = (*map)-> next_x;
+	next_y = (*map)-> next_y;
+	prepare_matrix(*map);
+	if ((*map)-> cam -> z < 0)
+		(*map)-> cam -> z = 0;
 	while (tmp)
 	{
 		if (tmp -> y == next_x -> y)
-			drawline((*map)-> img, (*map)-> mlx, tmp -> dot_x, tmp -> dot_y, next_x -> dot_x, next_x -> dot_y, tmp -> color);
-		drawline((*map)-> img, (*map)->  mlx, next_y -> dot_x, next_y -> dot_y, tmp -> dot_x, tmp -> dot_y, tmp-> color);
+			drawline(*map, tmp, next_x);
+		drawline(*map, tmp, next_y);
 		tmp = tmp -> next;
 		if (next_x -> next)
 			next_x = next_x -> next;
