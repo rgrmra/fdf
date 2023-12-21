@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2023/12/17 20:13:55 by rde-mour         ###   ########.org.br    #
+#    Updated: 2023/12/21 20:37:22 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,8 @@ libft:
 	@make -sC $(LIBFTDIR)
 
 libmlx:
+	@git submodule sync
+	@git submodule update
 	@cd $(LIBMLXDIR) && cmake -B build -DDEBUG=1 && make -sC build -j4
 
 clean:
