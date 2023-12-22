@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/20 20:42:14 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/21 21:25:49 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define WIDTH 1366
 # define HEIGHT 768
 # define HEX "0123456789ABCDEF"
+# define PI 3.1415926535897932384626433832795
 
 typedef struct s_map {
 	mlx_t			*mlx;
