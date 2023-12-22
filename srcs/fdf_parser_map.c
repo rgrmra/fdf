@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:08:19 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/19 19:30:53 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/21 21:03:08 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	build_map(t_map **map, char *str)
 			fdf_lstadd_back(&((*map)-> field),
 				fdf_lstnew(x, (*map)-> y,
 					ft_atoi(*(splited + x)),
-					ft_atoc(*(splited + x))));
+					ft_atoc(ft_strchr(*(splited + x), ','))));
 		free(*(splited + x));
 		x++;
 	}
