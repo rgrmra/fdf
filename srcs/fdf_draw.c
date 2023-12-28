@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:33:23 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/20 21:03:03 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/28 11:18:58 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ static int	gradient(t_draw *draw)
 	double	color[3];
 	int		new[3];
 	int		newcolor;
-	int		pix;
+	int		pixel;
 
-	pix = draw -> line - draw -> pixel;
+	pixel = draw -> line - draw -> pixel;
 	*(color) = (double)((draw -> ycolor >> 16) - (draw -> xcolor >> 16)) \
-			/ (double)draw -> line;
+			/ (double) draw -> line;
 	*(color + 1) = (double)(((draw -> ycolor >> 8) & 0xFF) - \
-			((draw -> xcolor >> 8) & 0xFF)) / (double)draw -> line;
+			((draw -> xcolor >> 8) & 0xFF)) / (double) draw -> line;
 	*(color + 2) = (double)((draw -> ycolor & 0xFF) - \
-			(draw -> xcolor & 0xFF)) / (double)draw -> line;
-	*new = (draw -> xcolor >> 16) + round(pix * *color);
-	*(new + 1) = ((draw -> xcolor >> 8) & 0xFF) + round(pix * *(color + 1));
-	*(new + 2) = (draw -> xcolor & 0xFF) + round(pix * *(color + 2));
+			(draw -> xcolor & 0xFF)) / (double) draw -> line;
+	*new = (draw -> xcolor >> 16) + round(pixel * *color);
+	*(new + 1) = ((draw -> xcolor >> 8) & 0xFF) + round(pixel * *(color + 1));
+	*(new + 2) = (draw -> xcolor & 0xFF) + round(pixel * *(color + 2));
 	newcolor = (*new << 16) + (*(new + 1) << 8) + *(new + 2);
 	return (newcolor);
 }
@@ -65,10 +65,10 @@ static void	drawline(t_map *map, t_field *from, t_field *to)
 
 	draw.x0 = (int) from -> dot_x;
 	draw.x1 = (int) to -> dot_x;
-	draw.xcolor = ((from -> color * 16) * 16) + 0x77;
+	draw.xcolor = ((from -> color * 16) * 16) + TRANSPARENCY;
 	draw.y0 = (int) from -> dot_y;
 	draw.y1 = (int) to -> dot_y;
-	draw.ycolor = ((to -> color * 16) * 16) + 0x77;
+	draw.ycolor = ((to -> color * 16) * 16) + TRANSPARENCY;
 	draw.dx = abs(draw.x1 - draw.x0);
 	if (draw.x0 < draw.x1)
 		draw.sx = 1;

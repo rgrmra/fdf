@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/21 21:44:46 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/28 11:43:00 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,15 +75,15 @@ static void	key_hook(void *param)
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_F))
 		set_position(&map, 0.0, 0.0, 0.0);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_H))
-		set_position(&map, PI, 0.0, 0.0);
+		set_position(&map, M_PI, 0.0, 0.0);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_T))
-		set_position(&map, PI / 2, 0.0, PI);
+		set_position(&map, M_PI / 2, 0.0, M_PI);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_Y))
-		set_position(&map, -PI / 2, 0.0, 0.0);
+		set_position(&map, -M_PI / 2, 0.0, 0.0);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_V))
-		set_position(&map, 0.0, -PI / 2, PI / 2);
+		set_position(&map, 0.0, -M_PI / 2, M_PI / 2);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_B))
-		set_position(&map, 0.0, PI / 2, -PI / 2);
+		set_position(&map, 0.0, M_PI / 2, -M_PI / 2);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_C))
 	{
 		map -> cam -> x = map -> mlx -> width / 2;
