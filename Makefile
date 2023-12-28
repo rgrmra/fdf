@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2023/12/21 20:46:08 by rde-mour         ###   ########.org.br    #
+#    Updated: 2023/12/28 12:42:34 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,64 +24,67 @@ FILES = main.c \
 		fdf_rotate.c \
 		fdf_draw.c
 
-LIBS = $(LIBFTDIR)/libft.a \
+LIBS = $(LIBFTXDIR)/libftx.a \
 	   $(LIBMLXDIR)/build/libmlx42.a $(MLXFLAGS)
 
 SRCSDIR = ./srcs
 OBJSDIR = ./objs
-LIBFTDIR = ./libs/libft
+LIBFTXDIR = ./libs/libftx
 LIBMLXDIR = ./libs/MLX42
 
 SRCS = $(FILES:%.c=$(SRCSDIR)/%.c)
 OBJS = $(FILES:%.c=$(OBJSDIR)/%.o)
 
 INCLUDES = -I ./includes -D ROTATION=0.001 \
-		   -I ./libs/libft/includes \
+		   -I ./libs/libftx/includes \
 		   -I ./libs/MLX42/includes
 
 COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 MLXFLAGS = -ldl -lglfw -pthread -lm
 
-M :=
-
-ifndef MAP
-	MAP = ./maps/42.fdf
-else
-	MPA = M
-endif
-
-all: libft libmlx $(NAME)
+all: libftx libmlx $(NAME)
 
 $(NAME): $(OBJS)
 	@$(COMPILER) $(CFLAGS) -Ofast $(OBJS) $(LIBS) $(INCLUDES) -o $(NAME)
 
-e: all
-	valgrind --show-leak-kinds=all --track-origins=yes --verbose --log-file=valgrind-out.txt ./fdf $(MAP)
-
 $(OBJSDIR)/%.o: $(SRCSDIR)/%.c
 	@mkdir -p $(@D)
 	@$(COMPILER) $(CFLAGS) -c $< -o $@ $(INCLUDES)
-	@echo "$(GREEN)Compiled $(RESET)$(notdir $<)"
+	@echo -e "$(GREEN)Compiled $(RESET)$(notdir $<)"
 
-libft:
-	@make -sC $(LIBFTDIR)
+libftx:
+	@git submodule sync $(LIBFTXDIR)
+	@git submodule init $(LIBFTXDIR)
+	@git submodule update --init --force --remote $(LIBFTXDIR)
+	@make -sC $(LIBFTXDIR)
 
 libmlx:
-	@git submodule sync
-	@git submodule init
-	@git submodule update
+	@git submodule sync $(LIBMLXDIR) 
+	@git submodule init $(LIBMLXDIR)
+	@git submodule update --init --force --remote $(LIBMLXDIR)
 	@cd $(LIBMLXDIR) && cmake -B build -DDEBUG=1 && make -sC build -j4
 
+clslibftx:
+	@echo -e "$(RED)Removing $(RESET)libftx repository"
+	@rm -Rf $(LIBFTXDIR)
+
+clslibmlx:
+	@echo -e "$(RED)Removing $(RESET)libmlx repository"
+	@rm -Rf $(LIBMLXDIR)
+
+clslibs:
+	@echo -e "$(RED)Removing $(RESET)libraries"
+	@rm -Rf ./libs
+
 clean:
-	@echo "$(RED)Removing $(RESET)objects"
-	@make clean -sC $(LIBFTDIR)
+	@echo -e "$(RED)Removing $(RESET)objects"
+	@make clean -sC $(LIBFTXDIR)
 	@rm -Rf $(LIBMLXDIR)/build
 	@rm -Rf $(OBJSDIR)
 
-fclean: clean
-	@make fclean -sC $(LIBFTDIR)
-	@echo "$(RED)Removing $(RESET)$(NAME)"
+fclean: clean clslibs
+	@echo -e "$(RED)Removing $(RESET)$(NAME)"
 	@rm -rf $(NAME)
 
 re: fclean all
