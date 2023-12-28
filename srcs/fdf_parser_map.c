@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:08:19 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/21 21:03:08 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/28 13:06:53 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ static unsigned long	ft_atoc(const char *str)
 	int				i;
 
 	if (!str)
-		return (0xffffff);
+		return (WHITE);
 	while (*str && *str != 'x')
 		str++;
 	if (!*str)
-		return (0xffffff);
+		return (WHITE);
 	i = 0;
 	color = 0;
 	while (*(str + i))
@@ -73,7 +73,7 @@ static void	build_map(t_map **map, char *str)
 	int32_t			x;
 
 	x = 0;
-	if ((*str + ft_strlen(str) - 1) == '\n')
+	if (*(str + ft_strlen(str) - 1) == '\n')
 		*(str + ft_strlen(str) - 1) = '\0';
 	splited = ft_split(str, ' ');
 	if (!splited)
@@ -92,7 +92,7 @@ static void	build_map(t_map **map, char *str)
 	if ((*map)-> x == 0)
 		(*map)-> x = x;
 	while (x < (*map)-> x)
-		fdf_lstadd_back(&(*map)-> field, fdf_lstnew(x++, (*map)-> y, 0, 0));
+		fdf_lstadd_back(&(*map)-> field, fdf_lstnew(x++, (*map)-> y, 0, WHITE));
 	(*map)-> y += 1;
 }
 
@@ -116,8 +116,7 @@ void	parser_map(t_map **map, const char *path)
 	str = get_next_line(fd);
 	while (str)
 	{
-		if (*str && *str != '\n')
-			build_map(map, str);
+		build_map(map, str);
 		free(str);
 		str = get_next_line(fd);
 	}
