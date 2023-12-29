@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 11:19:24 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/28 22:11:40 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ typedef struct s_field {
 	double			dot_x;
 	double			dot_y;
 	double			dot_z;
-	int32_t			color;
+	uint32_t		color;
 	struct s_field	*next;
 }	t_field;
 
@@ -66,8 +66,8 @@ typedef struct s_draw {
 	int32_t	x1;
 	int32_t	y1;
 	int32_t	ycolor;
-	int		line;
-	int		pixel;
+	int32_t	line;
+	int32_t	pixel;
 	int32_t	dx;
 	int32_t	sx;
 	int32_t	dy;
@@ -82,7 +82,7 @@ void	rotate(t_field **dot, t_cam **cam);
 void	set_position(t_map **map, double x, double y, double z);
 void	print_matrix(t_map **map);
 
-t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, unsigned long color);
+t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color);
 t_field	*fdf_lstlast(t_field *field);
 void	fdf_lstadd_back(t_field **field, t_field *new);
 void	fdf_lstclear(t_field **field);

@@ -6,18 +6,18 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:33:23 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 11:18:58 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/28 22:15:25 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	gradient(t_draw *draw)
+static uint32_t	gradient(t_draw *draw)
 {
-	double	color[3];
-	int		new[3];
-	int		newcolor;
-	int		pixel;
+	double		color[3];
+	uint32_t	new[3];
+	uint32_t	newcolor;
+	uint32_t	pixel;
 
 	pixel = draw -> line - draw -> pixel;
 	*(color) = (double)((draw -> ycolor >> 16) - (draw -> xcolor >> 16)) \

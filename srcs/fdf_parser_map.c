@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:08:19 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 13:06:53 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2023/12/28 22:16:59 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	check_map(t_map **map)
 {
-	t_field	*tmp;
-	int		size;
+	t_field		*tmp;
+	int32_t	size;
 
 	if (!map || !(*map) || !(*map)-> x)
 		ft_error();
@@ -39,11 +39,11 @@ static void	check_map(t_map **map)
 	ft_error();
 }
 
-static unsigned long	ft_atoc(const char *str)
+static uint32_t	ft_atoc(const char *str)
 {
-	unsigned int	color;
-	int				hex;
-	int				i;
+	uint32_t	color;
+	int32_t	hex;
+	int32_t	i;
 
 	if (!str)
 		return (WHITE);
@@ -58,7 +58,7 @@ static unsigned long	ft_atoc(const char *str)
 		hex = 0;
 		while (hex < 16)
 		{
-			if (HEX[hex] == *(str + i) || HEX[hex] + 32 == *(str + i))
+			if (*(HEX + hex) == *(str + i) || *(HEX + hex) + 32 == *(str + i))
 				color = (color * 16) + hex;
 			hex++;
 		}
@@ -98,7 +98,7 @@ static void	build_map(t_map **map, char *str)
 
 void	parser_map(t_map **map, const char *path)
 {
-	int		fd;
+	int32_t	fd;
 	char	*str;
 
 	str = ft_strrchr(path, '.');
