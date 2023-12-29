@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2023/12/28 12:42:34 by rde-mour         ###   ########.org.br    #
+#    Updated: 2023/12/28 21:41:53 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,27 +55,13 @@ $(OBJSDIR)/%.o: $(SRCSDIR)/%.c
 
 libftx:
 	@git submodule sync $(LIBFTXDIR)
-	@git submodule init $(LIBFTXDIR)
 	@git submodule update --init --force --remote $(LIBFTXDIR)
 	@make -sC $(LIBFTXDIR)
 
 libmlx:
-	@git submodule sync $(LIBMLXDIR) 
-	@git submodule init $(LIBMLXDIR)
+	@git submodule sync $(LIBMLXDIR)
 	@git submodule update --init --force --remote $(LIBMLXDIR)
 	@cd $(LIBMLXDIR) && cmake -B build -DDEBUG=1 && make -sC build -j4
-
-clslibftx:
-	@echo -e "$(RED)Removing $(RESET)libftx repository"
-	@rm -Rf $(LIBFTXDIR)
-
-clslibmlx:
-	@echo -e "$(RED)Removing $(RESET)libmlx repository"
-	@rm -Rf $(LIBMLXDIR)
-
-clslibs:
-	@echo -e "$(RED)Removing $(RESET)libraries"
-	@rm -Rf ./libs
 
 clean:
 	@echo -e "$(RED)Removing $(RESET)objects"
@@ -83,7 +69,7 @@ clean:
 	@rm -Rf $(LIBMLXDIR)/build
 	@rm -Rf $(OBJSDIR)
 
-fclean: clean clslibs
+fclean: clean
 	@echo -e "$(RED)Removing $(RESET)$(NAME)"
 	@rm -rf $(NAME)
 
