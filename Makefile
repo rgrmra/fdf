@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2024/01/02 21:58:43 by rde-mour         ###   ########.org.br    #
+#    Updated: 2024/01/02 22:17:22 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ FILES = main.c \
 		fdf_draw.c
 
 LIBS = $(LIBFTXDIR)/libftx.a \
-	   $(LIBMLXDIR)/build/libmlx42.a $(MLXFLAGS)
+	   $(LIBMLXDIR)/build/libmlx42.a
 
 SRCSDIR = ./srcs
 OBJSDIR = ./objs
@@ -41,24 +41,22 @@ INCLUDES = -I ./includes -D ROTATION=0.001 \
 
 COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror -g3
-MLXFLAGS = -ldl -lglfw -pthread -lm
+MLXFLAGS = -ldl -lglfw -pthread -lm -Ofast
 
-all: libftx libmlx $(NAME)
+all: $(NAME)
 
-$(NAME): $(OBJS)
-	@$(COMPILER) $(CFLAGS) -Ofast $(OBJS) $(LIBS) $(INCLUDES) -o $(NAME)
+$(NAME): $(LIBS) $(OBJS)
+	@$(COMPILER) $(CFLAGS) $(OBJS) $(LIBS) $(MLXFLAGS) $(INCLUDES) -o $(NAME)
 
 $(OBJSDIR)/%.o: $(SRCSDIR)/%.c
 	@mkdir -p $(@D)
 	@$(COMPILER) $(CFLAGS) -c $< -o $@ $(INCLUDES)
 	@echo "$(GREEN)Compiled $(RESET)$(notdir $<)"
 
-libftx:
+$(LIBS):
 	@git submodule sync $(LIBFTXDIR)
 	@git submodule update --init --force --remote $(LIBFTXDIR)
 	@make -sC $(LIBFTXDIR)
-
-libmlx:
 	@git submodule sync $(LIBMLXDIR)
 	@git submodule update --init --force --remote $(LIBMLXDIR)
 	@sed -i 's/3\.18/3.16/g' $(LIBMLXDIR)/CMakeLists.txt
