@@ -1,6 +1,8 @@
 [submodule "libs/MLX42"]
 	path = libs/MLX42
 	url = https://github.com/codam-coding-college/MLX42.git
+	branch = master
 [submodule "libs/libftx"]
 	path = libs/libftx
 	url = https://github.com/rgrmra/libftx.git
+	branch = main

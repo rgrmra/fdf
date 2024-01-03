@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2023/12/28 21:41:53 by rde-mour         ###   ########.org.br    #
+#    Updated: 2024/01/02 21:58:43 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,7 @@ $(NAME): $(OBJS)
 $(OBJSDIR)/%.o: $(SRCSDIR)/%.c
 	@mkdir -p $(@D)
 	@$(COMPILER) $(CFLAGS) -c $< -o $@ $(INCLUDES)
-	@echo -e "$(GREEN)Compiled $(RESET)$(notdir $<)"
+	@echo "$(GREEN)Compiled $(RESET)$(notdir $<)"
 
 libftx:
 	@git submodule sync $(LIBFTXDIR)
@@ -61,19 +61,19 @@ libftx:
 libmlx:
 	@git submodule sync $(LIBMLXDIR)
 	@git submodule update --init --force --remote $(LIBMLXDIR)
+	@sed -i 's/3\.18/3.16/g' $(LIBMLXDIR)/CMakeLists.txt
 	@cd $(LIBMLXDIR) && cmake -B build -DDEBUG=1 && make -sC build -j4
 
 clean:
-	@echo -e "$(RED)Removing $(RESET)objects"
+	@echo "$(RED)Removing $(RESET)objects"
 	@make clean -sC $(LIBFTXDIR)
 	@rm -Rf $(LIBMLXDIR)/build
 	@rm -Rf $(OBJSDIR)
 
 fclean: clean
-	@echo -e "$(RED)Removing $(RESET)$(NAME)"
+	@echo "$(RED)Removing $(RESET)$(NAME)"
 	@rm -rf $(NAME)
 
 re: fclean all
 
 .PHONY: all libft libmlx clean fclean re
-
