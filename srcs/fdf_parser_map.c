@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:08:19 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 22:16:59 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/02 21:55:21 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static uint32_t	ft_atoc(const char *str)
 		hex = 0;
 		while (hex < 16)
 		{
-			if (*(HEX + hex) == *(str + i) || *(HEX + hex) + 32 == *(str + i))
+			if (HEX[hex] == *(str + i) || HEX[hex] + 32 == *(str + i))
 				color = (color * 16) + hex;
 			hex++;
 		}
