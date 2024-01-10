@@ -6,14 +6,18 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 11:43:00 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/09 20:19:27 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	ft_error(void)
+void	ft_error(char *error)
 {
+	if (errno)
+		perror("Error");
+	else
+		ft_putendl_fd(error, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 
@@ -21,10 +25,12 @@ static void	start_camera(t_map *map)
 {
 	map -> cam -> x = (double) map -> mlx -> width / 2;
 	map -> cam -> y = (double) map -> mlx -> height / 2;
-	if (map -> x > map -> y)
-		map -> cam -> z = (double) map -> mlx -> height / (map -> x + 5);
+	if (map -> x > map -> y && map -> x > map -> z)
+		map -> cam -> z = (double) map -> mlx -> height / (map -> x * 1.5);
+	else if (map -> y > map -> z)
+		map -> cam -> z = (double) map -> mlx -> height / (map -> y * 1.5);
 	else
-		map -> cam -> z = (double) map -> mlx -> height / (map -> y + 5);
+		map -> cam -> z = (double) map -> mlx -> height / (map -> z * 2.5);
 	map -> cam -> x_axis = -0.5;
 	map -> cam -> y_axis = -0.5;
 	map -> cam -> z_axis = 0.8;
@@ -101,14 +107,14 @@ int	main(int argc, char **argv)
 	parser_map(&map, argv[1]);
 	map -> mlx = mlx_init(WIDTH, HEIGHT, "Fil de Fer", true);
 	if (!map -> mlx)
-		ft_error();
+		ft_error("Error: Failed to allocate memory.");
 	map -> img = mlx_new_image(map -> mlx,
 			map -> mlx -> width, map -> mlx -> height);
 	if (!map -> img || mlx_image_to_window(map -> mlx, map -> img, 0, 0) < 0)
-		ft_error();
+		ft_error("Error: Failed to allocate memory.");
 	map -> cam = (t_cam *) malloc(1 * sizeof(t_cam));
 	if (!map -> cam)
-		ft_error();
+		ft_error("Error: Failed to allocate memory.");
 	start_camera(map);
 	print_matrix(&map);
 	mlx_loop_hook(map-> mlx, key_hook, map);

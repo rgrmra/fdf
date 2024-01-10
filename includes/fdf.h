@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 22:11:40 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/09 21:15:36 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 
 # include <fcntl.h>
 # include <stdlib.h>
+# include <errno.h>
+# include <stdio.h>
 # include <unistd.h>
 # include <math.h>
 # include "libft.h"
-# include "get_next_line.h"
-# include "ft_printf_bonus.h"
-# include "../libs/MLX42/include/MLX42/MLX42.h"
+# include "MLX42.h"
 
 # define WIDTH 1366
 # define HEIGHT 768
 # define HEX "0123456789ABCDEF"
 # define WHITE 0xffffff
-# define TRANSPARENCY 0x77
+# define TRANSPARENCY 0x77000000
 
 typedef struct s_map {
 	mlx_t			*mlx;
@@ -37,6 +37,7 @@ typedef struct s_map {
 	struct s_cam	*cam;
 	int32_t			x;
 	int32_t			y;
+	int32_t			z;
 }	t_map;
 
 typedef struct s_cam {
@@ -72,11 +73,11 @@ typedef struct s_draw {
 	int32_t	sx;
 	int32_t	dy;
 	int32_t	sy;
-	int32_t err;
+	int32_t	err;
 	int32_t	e2;
 }	t_draw;
 
-void	ft_error(void);
+void	ft_error(char *error);
 void	parser_map(t_map **map, const char *path);
 void	rotate(t_field **dot, t_cam **cam);
 void	set_position(t_map **map, double x, double y, double z);

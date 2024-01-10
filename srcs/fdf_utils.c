@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:35:52 by rde-mour          #+#    #+#             */
-/*   Updated: 2023/12/28 22:10:44 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/09 19:48:47 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color)
 
 	new = (t_field *) malloc(1 * sizeof(t_field));
 	if (!new)
-		return (0);
+		ft_error("Failed to allocate memory to dot.");
 	new -> x = x;
 	new -> dot_x = x;
 	new -> y = y;
