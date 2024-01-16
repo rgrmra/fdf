@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:33:23 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/08 23:02:50 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/15 18:03:42 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ static uint32_t	gradient(t_draw *draw)
 
 	pixel = draw -> line - draw -> pixel;
 	*(color) = (double)((draw -> ycolor >> 16) - (draw -> xcolor >> 16)) \
-			/ (double) draw -> line;
-	*(color + 1) = (double)(((draw -> ycolor >> 8) & 0xFF) - \
-			((draw -> xcolor >> 8) & 0xFF)) / (double) draw -> line;
-	*(color + 2) = (double)((draw -> ycolor & 0xFF) - \
-			(draw -> xcolor & 0xFF)) / (double) draw -> line;
+		/ (double) draw -> line;
+	*(color + 1) = (double)(((draw -> ycolor >> 8) & 0xFF) \
+		- ((draw -> xcolor >> 8) & 0xFF)) / (double) draw -> line;
+	*(color + 2) = (double)((draw -> ycolor & 0xFF) \
+		- (draw -> xcolor & 0xFF)) / (double) draw -> line;
 	*new = (draw -> xcolor >> 16) + round(pixel * *color);
 	*(new + 1) = ((draw -> xcolor >> 8) & 0xFF) + round(pixel * *(color + 1));
 	*(new + 2) = (draw -> xcolor & 0xFF) + round(pixel * *(color + 2));
 	newcolor = (*new << 16) + (*(new + 1) << 8) + *(new + 2);
-	newcolor = newcolor * 256 + TRANSPARENCY;
+	newcolor = (newcolor << 8) + ALPHA;
 	return (newcolor);
 }
 
@@ -39,7 +39,7 @@ static void	calculate(t_map *map, t_field *from, t_draw *draw)
 	if ((from -> dot_x >= 0 && from -> dot_x < map -> mlx -> width)
 		&& (from -> dot_y >= 0 && from -> dot_y < map -> mlx -> height))
 		mlx_put_pixel(map -> img, from -> dot_x, from -> dot_y,
-			from -> color * 256 + TRANSPARENCY);
+			(from -> color << 8) + ALPHA);
 	while (draw -> pixel)
 	{
 		if ((draw -> x0 >= 0 && draw -> x0 < map -> mlx -> width)
@@ -98,12 +98,12 @@ static void	prepare_matrix(t_map *map)
 	i = 0;
 	while (i < (map -> img -> width * map -> img -> height * sizeof(uint32_t)))
 	{
-		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0x33;
-		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0x33;
-		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0x33;
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = BLACK >> 16 & 0xff;
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = BLACK >> 8 & 0xff;
+		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = BLACK & 0xff;
 		*(map -> img -> pixels + (i++ * sizeof(uint8_t))) = 0xff;
 	}
-	tmp = map-> field;
+	tmp = map -> field;
 	while (tmp)
 	{
 		tmp -> dot_x = tmp -> x * map -> cam -> z;
@@ -114,6 +114,9 @@ static void	prepare_matrix(t_map *map)
 		tmp -> dot_y += map -> cam -> y;
 		tmp = tmp-> next;
 	}
+	map -> cam -> width = map -> mlx -> width;
+	map -> cam -> height = map -> mlx -> height;
+	fdf_color(&map);
 }
 
 void	print_matrix(t_map **map)

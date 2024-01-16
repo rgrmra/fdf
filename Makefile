@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2024/01/02 22:17:22 by rde-mour         ###   ########.org.br    #
+#    Updated: 2024/01/13 20:35:39 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +18,13 @@ RESET				= \033[0m
 
 NAME = fdf
 
-FILES = main.c \
+FILES = fdf.c \
 		fdf_utils.c \
 		fdf_parser_map.c \
 		fdf_rotate.c \
-		fdf_draw.c
+		fdf_draw.c \
+		fdf_color.c \
+		fdf_error.c
 
 LIBS = $(LIBFTXDIR)/libftx.a \
 	   $(LIBMLXDIR)/build/libmlx42.a
@@ -35,9 +37,9 @@ LIBMLXDIR = ./libs/MLX42
 SRCS = $(FILES:%.c=$(SRCSDIR)/%.c)
 OBJS = $(FILES:%.c=$(OBJSDIR)/%.o)
 
-INCLUDES = -I ./includes -D ROTATION=0.001 \
+INCLUDES = -I ./includes \
 		   -I ./libs/libftx/includes \
-		   -I ./libs/MLX42/includes
+		   -I ./libs/MLX42/include/MLX42
 
 COMPILER = cc
 CFLAGS = -Wall -Wextra -Werror -g3

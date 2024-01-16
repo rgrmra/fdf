@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:35:52 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/09 19:48:47 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/15 18:17:19 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color)
 {
 	t_field	*new;
 
-	new = (t_field *) malloc(1 * sizeof(t_field));
+	new = (t_field *) ft_calloc(1, sizeof(t_field));
 	if (!new)
-		ft_error("Failed to allocate memory to dot.");
+		ft_error(0, "Error: Failed to allocate memory.");
 	new -> x = x;
 	new -> dot_x = x;
 	new -> y = y;
@@ -26,11 +26,12 @@ t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color)
 	new -> z = z;
 	new -> dot_z = z;
 	new -> color = color;
+	new -> dot_color = color;
 	new -> next = 0;
 	return (new);
 }
 
-t_field	*fdf_lstlast(t_field *field)
+static t_field	*fdf_lstlast(t_field *field)
 {
 	if (!field)
 		return (0);
@@ -61,4 +62,27 @@ void	fdf_lstclear(t_field **field)
 		*field = (*field)-> next;
 		free(tmp);
 	}
+}
+
+t_map	*fdf_start_map(void)
+{
+	t_map	*map;
+
+	map = 0;
+	map = (t_map *) ft_calloc(1, sizeof(t_map));
+	if (!map)
+		ft_error(map, "Error: Failed to allocate memory.");
+	map -> mlx = 0;
+	map -> img = 0;
+	map -> info = 0;
+	map -> texture = 0;
+	map -> field = 0;
+	map -> next_x = 0;
+	map -> next_y = 0;
+	map -> cam = 0;
+	map -> speed = SPEED;
+	map -> x = 0;
+	map -> y = 0;
+	map -> z = 0;
+	return (map);
 }

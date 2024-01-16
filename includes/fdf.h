@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/09 21:15:36 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/15 20:41:59 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,23 +24,46 @@
 
 # define WIDTH 1366
 # define HEIGHT 768
+
 # define HEX "0123456789ABCDEF"
+
+# define TRANSLATION 0.015
+# define ROTATION 0.015
+# define ZOOM 0.015
+# define SPEED 0.015
+
 # define WHITE 0xffffff
-# define TRANSPARENCY 0x77000000
+# define RED 0xff0000
+# define ORANGE 0xff8000
+# define YELLOW 0xffff00
+# define GREEN 0x00ff00
+# define CYAN 0x00ffff
+# define BLUE 0x0080ff
+# define PURPLE 0x8000ff
+# define MAGENTA 0xff00ff
+# define PINK 0xff0080
+# define BLACK 0x272727
+# define ALPHA 0x77
 
 typedef struct s_map {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
+	mlx_image_t		*info;
+	mlx_texture_t	*texture;
 	struct s_field	*field;
 	struct s_field	*next_x;
 	struct s_field	*next_y;
 	struct s_cam	*cam;
+	double			speed;
 	int32_t			x;
 	int32_t			y;
 	int32_t			z;
 }	t_map;
 
 typedef struct s_cam {
+	double	width;
+	double	height;
+	double	depth;
 	double	x;
 	double	y;
 	double	z;
@@ -53,10 +76,11 @@ typedef struct s_field {
 	double			x;
 	double			y;
 	double			z;
+	uint32_t		color;
 	double			dot_x;
 	double			dot_y;
 	double			dot_z;
-	uint32_t		color;
+	uint32_t		dot_color;
 	struct s_field	*next;
 }	t_field;
 
@@ -77,14 +101,17 @@ typedef struct s_draw {
 	int32_t	e2;
 }	t_draw;
 
-void	ft_error(char *error);
+void	ft_clear_map(t_map *map);
+void	ft_error(t_map *map, char *error);
+void	fdf_color(t_map **map);
+void	fdf_info(mlx_key_data_t keydata, void *param);
 void	parser_map(t_map **map, const char *path);
 void	rotate(t_field **dot, t_cam **cam);
 void	set_position(t_map **map, double x, double y, double z);
 void	print_matrix(t_map **map);
 
+t_map	*fdf_start_map(void);
 t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color);
-t_field	*fdf_lstlast(t_field *field);
 void	fdf_lstadd_back(t_field **field, t_field *new);
 void	fdf_lstclear(t_field **field);
 
