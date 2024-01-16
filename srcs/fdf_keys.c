@@ -1,16 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_color.c                                        :+:      :+:    :+:   */
+/*   fdf_keys.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 12:08:46 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 14:34:12 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 20:19:47 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void	fdf_close(mlx_key_data_t keydata, t_map *map)
+{
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		mlx_close_window(map -> mlx);
+	}
+}
 
 void	fdf_info(mlx_key_data_t keydata, void *param)
 {
@@ -25,15 +33,20 @@ void	fdf_info(mlx_key_data_t keydata, void *param)
 			map -> info = 0;
 			return ;
 		}
-		map -> texture = mlx_load_png("imgs/keymaps.png");
 		if (!map -> texture)
-			ft_error(map, "Error: Failed to load png.");
+		{
+			map -> texture = mlx_load_png("imgs/keymaps.png");
+			if (!map -> texture)
+				ft_error(map, "Error: Failed to load png.");
+		}
 		map -> info = mlx_texture_to_image(map -> mlx, map -> texture);
 		if (!map -> info)
 			ft_error(map, "Error: Failed to create image.");
 		if (mlx_image_to_window(map -> mlx, map -> info, 0, 0) < 0)
 			ft_error(map, "Error: Failed to insert image.");
 	}
+	else
+		fdf_close(keydata, map);
 }
 
 static uint32_t	get_color(t_map *map, t_field *tmp)

@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 14:26:37 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 19:25:22 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include "libft.h"
 # include "MLX42.h"
 
-# define WIDTH 1024
-# define HEIGHT 576
+# define WIDTH 1366
+# define HEIGHT 768
 
 # define HEX "0123456789ABCDEF"
 

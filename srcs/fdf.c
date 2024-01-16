@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 14:36:44 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 20:17:53 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ static void	centralize(t_map *map)
 		map -> cam -> x = map -> mlx -> width / 2;
 		map -> cam -> y = map -> mlx -> height / 2;
 	}
-	if (map -> info && ((uint32_t) map -> mlx -> width != map -> info -> width
-		|| (uint32_t) map -> mlx -> height != map -> info -> height))
+	if (map -> info)
 	{
-		mlx_delete_image(map -> mlx, map -> info);
-		map -> info = 0;
+		map -> info -> instances[0].x = map -> mlx -> width \
+			/ 2 - map -> info -> width / 2;
+		map -> info -> instances[0].y = map -> mlx -> height \
+			/ 2 - map -> info -> height / 2;
 	}
 }
 
@@ -82,11 +83,6 @@ static void	key_hook(void *param)
 	t_map	*map;
 
 	map = (t_map *) param;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_ESCAPE))
-	{
-		mlx_close_window(map -> mlx);
-		return ;
-	}
 	screen_movement(map);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_R))
 		start_camera(map);
@@ -120,7 +116,7 @@ int	main(int argc, char **argv)
 	map -> img = mlx_new_image(map -> mlx, WIDTH, HEIGHT);
 	if (!map -> img || mlx_image_to_window(map -> mlx, map -> img, 0, 0) < 0)
 		ft_error(map, "Error: Failed to initiate image.");
-	mlx_set_window_limit(map -> mlx, WIDTH, HEIGHT, -1, -1);
+	mlx_set_window_limit(map -> mlx, 1024, 576, -1, -1);
 	map -> cam = (t_cam *) malloc(1 * sizeof(t_cam));
 	if (!map -> cam)
 		ft_error(map, "Error: Failed to initiate camera.");

@@ -6,7 +6,7 @@
 #    By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/26 20:48:50 by rde-mour          #+#    #+#              #
-#    Updated: 2024/01/13 20:35:39 by rde-mour         ###   ########.org.br    #
+#    Updated: 2024/01/16 20:13:16 by rde-mour         ###   ########.org.br    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ FILES = fdf.c \
 		fdf_parser_map.c \
 		fdf_rotate.c \
 		fdf_draw.c \
-		fdf_color.c \
+		fdf_keys.c \
 		fdf_error.c
 
 LIBS = $(LIBFTXDIR)/libftx.a \
