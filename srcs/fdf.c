@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/15 20:38:48 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 14:36:44 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,37 +41,40 @@ static void	centralize(t_map *map)
 		map -> cam -> x = map -> mlx -> width / 2;
 		map -> cam -> y = map -> mlx -> height / 2;
 	}
-	//if (map -> info)
-	//	mlx_resize_image(map -> info, map -> mlx -> width,
-	////		map -> mlx -> height);
+	if (map -> info && ((uint32_t) map -> mlx -> width != map -> info -> width
+		|| (uint32_t) map -> mlx -> height != map -> info -> height))
+	{
+		mlx_delete_image(map -> mlx, map -> info);
+		map -> info = 0;
+	}
 }
 
 static void	screen_movement(t_map *map)
 {
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_I))
-		map -> cam -> x_axis -= map -> speed;
+		map -> cam -> x_axis -= SPEED;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_K))
-		map -> cam -> x_axis += map -> speed;
+		map -> cam -> x_axis += SPEED;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_J))
-		map -> cam -> y_axis -= map -> speed;
+		map -> cam -> y_axis -= SPEED;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_L))
-		map -> cam -> y_axis += map -> speed;
+		map -> cam -> y_axis += SPEED;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_U))
-		map -> cam -> z_axis -= map -> speed;
+		map -> cam -> z_axis -= SPEED;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_O))
-		map -> cam -> z_axis += map -> speed;
+		map -> cam -> z_axis += SPEED;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_A))
-		map -> cam -> x -= (map -> speed * 100);
+		map -> cam -> x -= (SPEED * 100);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_D))
-		map -> cam -> x += (map -> speed * 100);
+		map -> cam -> x += (SPEED * 100);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_W))
-		map -> cam -> y -= (map -> speed * 100);
+		map -> cam -> y -= (SPEED * 100);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_S))
-		map -> cam -> y += (map -> speed * 100);
+		map -> cam -> y += (SPEED * 100);
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_Q))
-		map -> cam -> z -= map -> speed * 10;
+		map -> cam -> z -= SPEED * 10;
 	if (mlx_is_key_down(map -> mlx, MLX_KEY_E))
-		map -> cam -> z += map -> speed * 10;
+		map -> cam -> z += SPEED * 10;
 }
 
 static void	key_hook(void *param)
@@ -113,14 +116,14 @@ int	main(int argc, char **argv)
 	parser_map(&map, argv[1]);
 	map -> mlx = mlx_init(WIDTH, HEIGHT, "Fil de Fer", true);
 	if (!map -> mlx)
-		ft_error(map, "Error: Failed to allocate memory.");
-	map -> img = mlx_new_image(map -> mlx,
-			map -> mlx -> width, map -> mlx -> height);
+		ft_error(map, "Error: Failed to initiate mlx.");
+	map -> img = mlx_new_image(map -> mlx, WIDTH, HEIGHT);
 	if (!map -> img || mlx_image_to_window(map -> mlx, map -> img, 0, 0) < 0)
-		ft_error(map, "Error: Failed to allocate memory.");
+		ft_error(map, "Error: Failed to initiate image.");
+	mlx_set_window_limit(map -> mlx, WIDTH, HEIGHT, -1, -1);
 	map -> cam = (t_cam *) malloc(1 * sizeof(t_cam));
 	if (!map -> cam)
-		ft_error(map, "Error: Failed to allocate memory.");
+		ft_error(map, "Error: Failed to initiate camera.");
 	start_camera(map);
 	print_matrix(&map);
 	mlx_key_hook(map -> mlx, fdf_info, map);

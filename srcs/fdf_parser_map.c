@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:08:19 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/13 20:30:29 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 13:01:05 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	parser_map(t_map **map, const char *path)
 {
 	int32_t	fd;
 	char	*str;
-	size_t	i;
 
 	str = ft_strrchr(path, '.');
 	if (!str || ft_strncmp(".fdf", ft_strrchr(path, '.'), 5) != 0)
@@ -107,7 +106,6 @@ void	parser_map(t_map **map, const char *path)
 	str = get_next_line(fd);
 	while (str)
 	{
-		i = 0;
 		build_map(map, str);
 		free(str);
 		str = get_next_line(fd);

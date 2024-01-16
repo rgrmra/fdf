@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:35:52 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/15 18:17:19 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 14:26:22 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ t_map	*fdf_start_map(void)
 	map -> next_x = 0;
 	map -> next_y = 0;
 	map -> cam = 0;
-	map -> speed = SPEED;
 	map -> x = 0;
 	map -> y = 0;
 	map -> z = 0;

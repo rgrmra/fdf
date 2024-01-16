@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 12:08:46 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/15 21:12:51 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 14:34:12 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,15 @@ void	fdf_info(mlx_key_data_t keydata, void *param)
 			map -> info = 0;
 			return ;
 		}
-		map -> texture = mlx_load_png("./imgs/keymaps.png");
+		map -> texture = mlx_load_png("imgs/keymaps.png");
 		if (!map -> texture)
-			ft_error(map, "????");
+			ft_error(map, "Error: Failed to load png.");
 		map -> info = mlx_texture_to_image(map -> mlx, map -> texture);
 		if (!map -> info)
-			ft_error(map, "?????");
+			ft_error(map, "Error: Failed to create image.");
 		if (mlx_image_to_window(map -> mlx, map -> info, 0, 0) < 0)
-			ft_error(map, "??????");
+			ft_error(map, "Error: Failed to insert image.");
 	}
-	if (keydata.key == MLX_KEY_N && keydata.action == MLX_PRESS)
-		if (map -> speed <= 10)
-		map -> speed += SPEED;
-	if (keydata.key == MLX_KEY_M && keydata.action == MLX_PRESS)
-		if (map -> speed >= 0)
-			map -> speed -= SPEED;
-	if (keydata.key == MLX_KEY_Z && keydata.action == MLX_PRESS)
-		map -> speed = SPEED;
 }
 
 static uint32_t	get_color(t_map *map, t_field *tmp)

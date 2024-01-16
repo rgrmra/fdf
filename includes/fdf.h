@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/15 20:41:59 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 14:26:37 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,28 +22,27 @@
 # include "libft.h"
 # include "MLX42.h"
 
-# define WIDTH 1366
-# define HEIGHT 768
+# define WIDTH 1024
+# define HEIGHT 576
 
 # define HEX "0123456789ABCDEF"
 
-# define TRANSLATION 0.015
-# define ROTATION 0.015
-# define ZOOM 0.015
 # define SPEED 0.015
 
-# define WHITE 0xffffff
-# define RED 0xff0000
-# define ORANGE 0xff8000
-# define YELLOW 0xffff00
-# define GREEN 0x00ff00
-# define CYAN 0x00ffff
-# define BLUE 0x0080ff
-# define PURPLE 0x8000ff
-# define MAGENTA 0xff00ff
-# define PINK 0xff0080
-# define BLACK 0x272727
-# define ALPHA 0x77
+enum e_color {
+	WHITE = 0xffffff,
+	RED = 0xff0000,
+	ORANGE = 0xff8000,
+	YELLOW = 0xffff00,
+	GREEN = 0x00ff00,
+	CYAN = 0x00ffff,
+	BLUE = 0x0080ff,
+	PURPLE = 0x8000ff,
+	MAGENTA = 0xff00ff,
+	PINK = 0xff0080,
+	BLACK = 0x272727,
+	ALPHA = 0x77
+};
 
 typedef struct s_map {
 	mlx_t			*mlx;
@@ -54,7 +53,6 @@ typedef struct s_map {
 	struct s_field	*next_x;
 	struct s_field	*next_y;
 	struct s_cam	*cam;
-	double			speed;
 	int32_t			x;
 	int32_t			y;
 	int32_t			z;
