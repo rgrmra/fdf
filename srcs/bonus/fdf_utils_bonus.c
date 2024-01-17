@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_utils.c                                        :+:      :+:    :+:   */
+/*   fdf_utils_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:35:52 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:12:37 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 22:04:26 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color)
 {
@@ -74,6 +74,8 @@ t_map	*fdf_start_map(void)
 		ft_error(map, "Error: Failed to allocate memory.");
 	map -> mlx = 0;
 	map -> img = 0;
+	map -> info = 0;
+	map -> texture = 0;
 	map -> field = 0;
 	map -> next_x = 0;
 	map -> next_y = 0;

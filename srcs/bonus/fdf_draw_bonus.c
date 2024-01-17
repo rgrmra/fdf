@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_draw.c                                         :+:      :+:    :+:   */
+/*   fdf_draw_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:33:23 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:09:52 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 22:03:24 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
+#include "fdf_bonus.h"
 
 static uint32_t	gradient(t_draw *draw)
 {
@@ -116,6 +116,7 @@ static void	prepare_matrix(t_map *map)
 	}
 	map -> cam -> width = map -> mlx -> width;
 	map -> cam -> height = map -> mlx -> height;
+	fdf_color(&map);
 }
 
 void	print_matrix(t_map **map)

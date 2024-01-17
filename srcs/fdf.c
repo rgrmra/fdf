@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 20:17:53 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 22:14:50 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,79 +27,10 @@ static void	start_camera(t_map *map)
 	map -> cam -> z_axis = 0.65;
 }
 
-static void	centralize(t_map *map)
-{
-	mlx_resize_image(map -> img, map -> mlx -> width, map -> mlx -> height);
-	map -> cam -> x = (map -> cam -> x / map -> cam -> width);
-	map -> cam -> x *= map -> mlx -> width;
-	map -> cam -> y = (map -> cam -> y / map -> cam -> height);
-	map -> cam -> y *= map -> mlx -> height;
-	map -> cam -> z = (map -> cam -> z / map -> cam -> height);
-	map -> cam -> z *= map -> mlx -> height;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_C))
-	{
-		map -> cam -> x = map -> mlx -> width / 2;
-		map -> cam -> y = map -> mlx -> height / 2;
-	}
-	if (map -> info)
-	{
-		map -> info -> instances[0].x = map -> mlx -> width \
-			/ 2 - map -> info -> width / 2;
-		map -> info -> instances[0].y = map -> mlx -> height \
-			/ 2 - map -> info -> height / 2;
-	}
-}
-
-static void	screen_movement(t_map *map)
-{
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_I))
-		map -> cam -> x_axis -= SPEED;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_K))
-		map -> cam -> x_axis += SPEED;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_J))
-		map -> cam -> y_axis -= SPEED;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_L))
-		map -> cam -> y_axis += SPEED;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_U))
-		map -> cam -> z_axis -= SPEED;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_O))
-		map -> cam -> z_axis += SPEED;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_A))
-		map -> cam -> x -= (SPEED * 100);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_D))
-		map -> cam -> x += (SPEED * 100);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_W))
-		map -> cam -> y -= (SPEED * 100);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_S))
-		map -> cam -> y += (SPEED * 100);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_Q))
-		map -> cam -> z -= SPEED * 10;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_E))
-		map -> cam -> z += SPEED * 10;
-}
 
 static void	key_hook(void *param)
 {
-	t_map	*map;
-
-	map = (t_map *) param;
-	screen_movement(map);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_R))
-		start_camera(map);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_F))
-		set_position(&map, 0.0, 0.0, 0.0);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_H))
-		set_position(&map, M_PI, 0.0, 0.0);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_T))
-		set_position(&map, M_PI / 2, 0.0, M_PI);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_Y))
-		set_position(&map, -M_PI / 2, 0.0, 0.0);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_V))
-		set_position(&map, 0.0, -M_PI / 2, M_PI / 2);
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_B))
-		set_position(&map, 0.0, M_PI / 2, -M_PI / 2);
-	centralize(map);
-	print_matrix(&map);
+	print_matrix((t_map **) &param);
 }
 
 int	main(int argc, char **argv)
@@ -122,7 +53,7 @@ int	main(int argc, char **argv)
 		ft_error(map, "Error: Failed to initiate camera.");
 	start_camera(map);
 	print_matrix(&map);
-	mlx_key_hook(map -> mlx, fdf_info, map);
+	mlx_key_hook(map -> mlx, fdf_close, map);
 	mlx_loop_hook(map -> mlx, key_hook, map);
 	mlx_loop(map-> mlx);
 	ft_clear_map(map);

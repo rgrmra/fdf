@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf.h                                              :+:      :+:    :+:   */
+/*   fdf_bonus.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:21:01 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/16 22:07:15 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FDF_H
-# define FDF_H
+#ifndef FDF_BONUS_H
+# define FDF_BONUS_H
 
 # include <fcntl.h>
 # include <stdlib.h>
@@ -27,8 +27,19 @@
 
 # define HEX "0123456789ABCDEF"
 
+# define SPEED 0.015
+
 enum e_color {
 	WHITE = 0xffffff,
+	RED = 0xff0000,
+	ORANGE = 0xff8000,
+	YELLOW = 0xffff00,
+	GREEN = 0x00ff00,
+	CYAN = 0x00ffff,
+	BLUE = 0x0080ff,
+	PURPLE = 0x8000ff,
+	MAGENTA = 0xff00ff,
+	PINK = 0xff0080,
 	BLACK = 0x272727,
 	ALPHA = 0x77
 };
@@ -36,6 +47,8 @@ enum e_color {
 typedef struct s_map {
 	mlx_t			*mlx;
 	mlx_image_t		*img;
+	mlx_image_t		*info;
+	mlx_texture_t	*texture;
 	struct s_field	*field;
 	struct s_field	*next_x;
 	struct s_field	*next_y;
@@ -86,7 +99,6 @@ typedef struct s_draw {
 	int32_t	e2;
 }	t_draw;
 
-void	fdf_close(mlx_key_data_t keydata, void *param);
 void	ft_clear_map(t_map *map);
 void	ft_error(t_map *map, char *error);
 void	fdf_color(t_map **map);
