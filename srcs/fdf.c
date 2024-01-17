@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/17 11:25:21 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 13:53:19 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,6 @@ static void	centralize(t_map *map)
 	map -> cam -> y *= map -> mlx -> height;
 	map -> cam -> z = (map -> cam -> z / map -> cam -> height);
 	map -> cam -> z *= map -> mlx -> height;
-	if (mlx_is_key_down(map -> mlx, MLX_KEY_C))
-	{
-		map -> cam -> x = map -> mlx -> width / 2;
-		map -> cam -> y = map -> mlx -> height / 2;
-	}
 }
 
 static void	key_hook(void *param)
