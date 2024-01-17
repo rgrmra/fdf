@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 14:37:42 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:04:16 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 11:50:23 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	rotate_x(t_field **dot, double rotation)
 {
-	int32_t	y;
-	int32_t	z;
+	int64_t	y;
+	int64_t	z;
 
 	y = (*dot)-> dot_y;
 	z = (*dot)-> dot_z;
@@ -25,8 +25,8 @@ static void	rotate_x(t_field **dot, double rotation)
 
 static void	rotate_y(t_field **dot, double rotation)
 {
-	int32_t	x;
-	int32_t	z;
+	int64_t	x;
+	int64_t	z;
 
 	x = (*dot)-> dot_x;
 	z = (*dot)-> dot_z;
@@ -36,8 +36,8 @@ static void	rotate_y(t_field **dot, double rotation)
 
 static void	rotate_z(t_field **dot, double rotation)
 {
-	int32_t	x;
-	int32_t	y;
+	int64_t	x;
+	int64_t	y;
 
 	x = (*dot)-> dot_x;
 	y = (*dot)-> dot_y;

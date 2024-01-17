@@ -6,47 +6,42 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 12:08:46 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:03:46 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 11:23:23 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf_bonus.h"
 
-static void	fdf_close(mlx_key_data_t keydata, t_map *map)
+static void	menu(t_map *map)
 {
-	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	if (map -> info)
 	{
-		mlx_close_window(map -> mlx);
+		mlx_delete_image(map -> mlx, map -> info);
+		map -> info = 0;
+		return ;
 	}
+	if (!map -> texture)
+	{
+		map -> texture = mlx_load_png("imgs/keymaps.png");
+		if (!map -> texture)
+			ft_error(map, "Error: Failed to load png.");
+	}
+	map -> info = mlx_texture_to_image(map -> mlx, map -> texture);
+	if (!map -> info)
+		ft_error(map, "Error: Failed to create image.");
+	if (mlx_image_to_window(map -> mlx, map -> info, 0, 0) < 0)
+		ft_error(map, "Error: Failed to insert image.");
 }
 
-void	fdf_info(mlx_key_data_t keydata, void *param)
+void	fdf_keys(mlx_key_data_t keydata, void *param)
 {
 	t_map	*map;
 
 	map = (t_map *) param;
 	if (keydata.key == MLX_KEY_F1 && keydata.action == MLX_PRESS)
-	{
-		if (map -> info)
-		{
-			mlx_delete_image(map -> mlx, map -> info);
-			map -> info = 0;
-			return ;
-		}
-		if (!map -> texture)
-		{
-			map -> texture = mlx_load_png("imgs/keymaps.png");
-			if (!map -> texture)
-				ft_error(map, "Error: Failed to load png.");
-		}
-		map -> info = mlx_texture_to_image(map -> mlx, map -> texture);
-		if (!map -> info)
-			ft_error(map, "Error: Failed to create image.");
-		if (mlx_image_to_window(map -> mlx, map -> info, 0, 0) < 0)
-			ft_error(map, "Error: Failed to insert image.");
-	}
-	else
-		fdf_close(keydata, map);
+		menu(map);
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+		mlx_close_window(map -> mlx);
 }
 
 static uint32_t	get_color(t_map *map, t_field *tmp)

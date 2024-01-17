@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/16 12:08:19 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 13:01:05 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 12:24:30 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	check_map(t_map **map, double x, double y)
 {
 	t_field	*tmp;
-	int32_t	size;
+	int64_t	size;
 
 	if (!map || !(*map) || !(*map)-> x)
 		ft_error(*map, "Error: Failed to parser map. File is empty.");
@@ -80,7 +80,7 @@ static void	build_map(t_map **map, char *str)
 		if ((*map)-> x == 0 || ((*map)-> x > x))
 			fdf_lstadd_back(&((*map)-> field),
 				fdf_lstnew(x, (*map)-> y,
-					ft_atoi(*(splited + x)),
+					ft_atol(*(splited + x)),
 					ft_atoc(ft_strchr(*(splited + x), ','))));
 		free(*(splited + x++));
 	}

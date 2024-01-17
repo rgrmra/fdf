@@ -6,15 +6,15 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/13 12:08:46 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:24:30 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 11:25:35 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	fdf_close(mlx_key_data_t keydata, void *param)
+void	fdf_keys(mlx_key_data_t keydata, void *param)
 {
-	t_map *map;
+	t_map	*map;
 
 	map = (t_map *) param;
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)

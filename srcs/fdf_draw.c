@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/17 19:33:23 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:09:52 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 11:37:53 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,12 @@ static void	drawline(t_map *map, t_field *from, t_field *to)
 	draw.y0 = (int) from -> dot_y;
 	draw.y1 = (int) to -> dot_y;
 	draw.ycolor = to -> color;
-	draw.dx = abs(draw.x1 - draw.x0);
+	draw.dx = labs(draw.x1 - draw.x0);
 	if (draw.x0 < draw.x1)
 		draw.sx = 1;
 	else
 		draw.sx = -1;
-	draw.dy = -abs(draw.y1 - draw.y0);
+	draw.dy = -labs(draw.y1 - draw.y0);
 	if (draw.y0 < draw.y1)
 		draw.sy = 1;
 	else

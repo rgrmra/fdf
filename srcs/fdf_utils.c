@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/03 17:35:52 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:12:37 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 09:16:53 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ t_field	*fdf_lstnew(int32_t x, int32_t y, int32_t z, uint32_t color)
 	new -> z = z;
 	new -> dot_z = z;
 	new -> color = color;
-	new -> dot_color = color;
 	new -> next = 0;
 	return (new);
 }

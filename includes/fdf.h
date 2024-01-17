@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/29 20:52:31 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/16 22:21:01 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/17 12:26:30 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,28 @@
 
 # define HEX "0123456789ABCDEF"
 
-enum e_color {
+enum e_color
+{
 	WHITE = 0xffffff,
 	BLACK = 0x272727,
 	ALPHA = 0x77
 };
 
-typedef struct s_map {
+typedef struct s_map
+{
 	mlx_t			*mlx;
 	mlx_image_t		*img;
 	struct s_field	*field;
 	struct s_field	*next_x;
 	struct s_field	*next_y;
 	struct s_cam	*cam;
-	int32_t			x;
-	int32_t			y;
-	int32_t			z;
+	int64_t			x;
+	int64_t			y;
+	int64_t			z;
 }	t_map;
 
-typedef struct s_cam {
+typedef struct s_cam
+{
 	double	width;
 	double	height;
 	double	depth;
@@ -57,7 +60,8 @@ typedef struct s_cam {
 	double	z_axis;
 }	t_cam;
 
-typedef struct s_field {
+typedef struct s_field
+{
 	double			x;
 	double			y;
 	double			z;
@@ -65,35 +69,32 @@ typedef struct s_field {
 	double			dot_x;
 	double			dot_y;
 	double			dot_z;
-	uint32_t		dot_color;
 	struct s_field	*next;
 }	t_field;
 
-typedef struct s_draw {
-	int32_t	x0;
-	int32_t	y0;
-	int32_t	xcolor;
-	int32_t	x1;
-	int32_t	y1;
-	int32_t	ycolor;
-	int32_t	line;
-	int32_t	pixel;
-	int32_t	dx;
-	int32_t	sx;
-	int32_t	dy;
-	int32_t	sy;
-	int32_t	err;
-	int32_t	e2;
+typedef struct s_draw
+{
+	int64_t	x0;
+	int64_t	y0;
+	int64_t	xcolor;
+	int64_t	x1;
+	int64_t	y1;
+	int64_t	ycolor;
+	int64_t	line;
+	int64_t	pixel;
+	int64_t	dx;
+	int64_t	sx;
+	int64_t	dy;
+	int64_t	sy;
+	int64_t	err;
+	int64_t	e2;
 }	t_draw;
 
-void	fdf_close(mlx_key_data_t keydata, void *param);
+void	fdf_keys(mlx_key_data_t keydata, void *param);
 void	ft_clear_map(t_map *map);
 void	ft_error(t_map *map, char *error);
-void	fdf_color(t_map **map);
-void	fdf_info(mlx_key_data_t keydata, void *param);
 void	parser_map(t_map **map, const char *path);
 void	rotate(t_field **dot, t_cam **cam);
-void	set_position(t_map **map, double x, double y, double z);
 void	print_matrix(t_map **map);
 
 t_map	*fdf_start_map(void);
