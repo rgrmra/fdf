@@ -6,7 +6,7 @@
 /*   By: rde-mour <rde-mour@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/26 20:48:14 by rde-mour          #+#    #+#             */
-/*   Updated: 2024/01/17 12:32:26 by rde-mour         ###   ########.org.br   */
+/*   Updated: 2024/01/18 13:55:06 by rde-mour         ###   ########.org.br   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,9 @@ static void	centralize(t_map *map)
 	}
 	if (map -> info)
 	{
-		map -> info -> instances[0].x = map -> mlx -> width \
+		map -> info -> instances -> x = map -> mlx -> width \
 			/ 2 - map -> info -> width / 2;
-		map -> info -> instances[0].y = map -> mlx -> height \
+		map -> info -> instances -> y = map -> mlx -> height \
 			/ 2 - map -> info -> height / 2;
 	}
 }
