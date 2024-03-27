@@ -17,6 +17,12 @@ This is my first graphical project.
   <img src="https://royalbox.com.br/github/fdf.gif">
 </p>
 
+# Dependencies
+
+```shell
+sudo apt install cmake libglfw3 libglfw3-dev
+```
+
 # Key Maps
 
 > There are a keymap system in the project. To access it, just press the <kbd>F1</kbd>
